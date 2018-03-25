@@ -1,9 +1,9 @@
 <?php
 
 /*
-Plugin Name: Location field
+Plugin Name: mfgz map
 Plugin URI:
-Description: All other fields for objects
+Description: mfgz map
 */
 
 function location_field() {
