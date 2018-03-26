@@ -74,7 +74,6 @@ if($('#_objekt_location').text() == null || $('#_objekt_location').text() == "")
 	objektCoordFloor = JSON.parse($('#_objekt_location').text());
 }}
 var	objektPosition = objektCoordFloor[0];
-console.log(objektPosition);
 var showFloor = objektCoordFloor[1].floor;
 
       var map;
@@ -184,6 +183,21 @@ marker.setVisible(false);
 markerToni.setVisible(false);
 
 			//open info windows on zoom out
+    var zoom = map.getZoom();
+    $('#map').addClass('zoom-'+zoom);
+		if(zoom > 17){
+			infowindow.close(map, marker);
+			infowindow.close(map, markerToni);
+			$('#floor-control').show();
+			marker.setVisible(false);
+			markerToni.setVisible(false);
+		}else{
+			infowindow.open(map, marker);
+			infowindowToni.open(map, markerToni);
+			$('#floor-control').hide();
+			marker.setVisible(true);
+			markerToni.setVisible(true);
+		}
 google.maps.event.addListener(map, 'zoom_changed', function() {
     var zoom = map.getZoom();
     $('#map').addClass('zoom-'+zoom);
@@ -201,20 +215,6 @@ google.maps.event.addListener(map, 'zoom_changed', function() {
       markerToni.setVisible(true);
     }
 
-    var zoom = map.getZoom();
-		if(zoom > 17){
-			infowindow.close(map, marker);
-			infowindow.close(map, markerToni);
-			$('#floor-control').show();
-			marker.setVisible(false);
-			markerToni.setVisible(false);
-		}else{
-			infowindow.open(map, marker);
-			infowindowToni.open(map, markerToni);
-			$('#floor-control').hide();
-			marker.setVisible(true);
-			markerToni.setVisible(true);
-		}
 });
 
 //show/hide floors and make a variable that holds new coordinates and floor for admin map
