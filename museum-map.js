@@ -27,15 +27,15 @@ $(window).load(function(){
 			$('.objekt-location-container').css('top',$('.title-area').height() + 10 + 'px');
 		}
 	}else if($('body').hasClass('single-ausstellungstexte')){
-		if($(window).width() > 800){
+		if($(window).width() > 800 && $(window).width() > $(window).height()){
 			//$('#map').height($(window).height() - 140);
-			var textTopStuff = $('h1').height() + 16 + 20;
-			$('#map').height($(window).height() - textTopStuff - $('.navbar-header').height() );
+			var textTopStuff = $('h1').height() + 20;
+			$('#map').height($(window).height() - textTopStuff - $('.navbar-header').height() - $('#colophon').height() );
 			$('.objekt-location-container').css('top',textTopStuff + 'px');
 		}else{
-			var textTopStuff = $('.navbar-header').height() + $('h1').height() + $('.location-info').height() -3;
+			var textTopStuff = $('.navbar-header').height() + $('h1').height() + $('.location-info').height() + parseInt($('h1').css('padding-top')) + parseInt($('h1').css('margin-bottom'));
 			$('#map').height($(window).height() - textTopStuff);
-			$('.objekt-location-container').css('top',textTopStuff + 'px');
+			$('.objekt-location-container').css('top',textTopStuff - $('.navbar-header').height() + 'px');
 		}
 	}else if($('body').hasClass('page-id-1316')){
 		if(window.innerHeight > window.innerWidth || $(window).width() < 800){
@@ -556,7 +556,8 @@ google.maps.event.addDomListener(window, 'load', initMap);
 
 				
 /*object location*/
-$('.locate-button, .location-name').click(function(){
+$('.locate-button, .location-name').click(function(e){
+	e.stopPropagation();
 	if($('#_objekt_location').text().length){
   $('.objekt-location-container').fadeToggle();
   google.maps.event.trigger(map, 'resize');
