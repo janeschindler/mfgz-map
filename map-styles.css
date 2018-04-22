@@ -330,3 +330,9 @@
 @keyframes blinker {  
   50% { opacity: .25; }
 }
+.en .de, .en .fr,
+.de .en, .de .fr,
+.fr .en, .fr .de{
+  display:none;
+}
+

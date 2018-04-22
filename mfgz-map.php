@@ -102,11 +102,23 @@ function text_with_map( $field_args, $field ) {
 <?php
 	function map_with_controls(){
 ?>
-  <div class="map-container">
+  <div class="map-container <?php if(is_admin() == true){ print "de"; } ?>">
     <div id="map"></div>
     <div id="floor-control">
-      <div class="floor-button"><div class="floorplan-ug"><?php print __('[:de]UG[:en]BF[:fr]SS[:]'); ?></div></div>
-      <div class="floor-button active"><div class="floorplan-eg"><?php print __('[:de]EG[:en]GF[:fr]RC[:]'); ?></div></div>
+      <div class="floor-button"><div class="floorplan-ug"><?php 
+				if(is_admin() == true){
+					print qtranxf_use('de', '[:de]UG[:en]BF[:fr]SS[:]');
+				}else{
+					print __('[:de]UG[:en]BF[:fr]SS[:]'); 
+				}
+			?></div></div>
+      <div class="floor-button active"><div class="floorplan-eg"><?php 
+				if(is_admin() == true){
+					print qtranxf_use('de', '[:de]EG[:en]GF[:fr]RC[:]');
+				}else{
+					print __('[:de]EG[:en]GF[:fr]RC[:]'); 
+				}
+			?></div></div>
       <div class="floor-button"><div class="floorplan-1">1</div></div>
       <div class="floor-button"><div class="floorplan-2">2</div></div>
     </div>
