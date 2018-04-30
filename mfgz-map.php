@@ -22,7 +22,7 @@ add_action('admin_enqueue_scripts', 'location_field');
 function location_field_frontend() {
   global $post_type;
   global $post;
-	if(!empty($post) && $post->ID == 1316 || !empty($post) && $post->post_type == 'ausstellungstexte' || (get_bloginfo() == "Museum für Gestaltung Zürich" && ( isset($post) && $post->ID == 5323 ) OR $post_type == 'standort'  ) ){
+	if(!empty($post) && $post->ID == 1316 || !empty($post) && $post->post_type == 'ausstellungstexte' || (get_bloginfo() == "Museum für Gestaltung Zürich" && ( isset($post) && $post->ID == 5323 ) OR $post_type == 'standort'  ) || (get_bloginfo() == "Museum für Gestaltung eGuide" && get_queried_object()->term_id == 915) || (get_bloginfo() == "Museum für Gestaltung eGuide" && get_queried_object()->term_id == 919) ){
 		wp_enqueue_script('google-maps', 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBjH_xjqK203t5C_MkDxQRgYkoSKXfFakk', array(), time());
     wp_enqueue_script('museum-indoor-map', plugins_url('museum-map.js', __FILE__), array('jquery','google-maps'), time());
 		wp_enqueue_style('map-styles', plugins_url('map-styles.css', __FILE__), array(), time());
@@ -122,13 +122,23 @@ function text_with_map( $field_args, $field ) {
       <div class="floor-button"><div class="floorplan-1">1</div></div>
       <div class="floor-button"><div class="floorplan-2">2</div></div>
     </div>
+		<div id="locator-tool" class="">
+			<div class="floor-button"><div class="geolocate mfgz-sym">2</div></div>
+		</div>
   </div>
 
   <div class="info-windows">
   <div class="info-window info-ausstellungsstr" id="info-ausstellungsstr">
     <div class="info-window-title">Ausstellungsstrasse</div>
     <div class="map-address">Ausstellungsstrasse 60<br>8005 Zürich</div>
-    <div class="see-floorplan"><?php print __('[:de]Museumsplan[:en]Museum map[:fr]Carte du musée[:]'); ?></div>
+    <div class="see-floorplan"><?php 
+				if(is_admin() == true){
+					print qtranxf_use('de', '[:de]Museumsplan[:en]Museum map[:fr]Carte du musée[:]');
+				}else{
+					print __('[:de]Museumsplan[:en]Museum map[:fr]Carte du musée[:]'); 
+				}
+			?>
+		</div>
   </div>
   <div class="info-window info-toni" id="info-toni">
     <div class="info-window-title">Toni-Areal</div>

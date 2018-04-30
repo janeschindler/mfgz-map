@@ -1,3 +1,4 @@
+var map;
 jQuery(document).ready(function($) {	
 
 var eGuide;
@@ -6,6 +7,7 @@ if(document.domain.indexOf('eguide') >= 0){
 }else{
 	eGuide = false;
 }
+
 
 $(window).load(function(){
 	if($('body').hasClass('wp-admin')){
@@ -76,7 +78,6 @@ if($('#_objekt_location').text() == null || $('#_objekt_location').text() == "")
 var	objektPosition = objektCoordFloor[0];
 var showFloor = objektCoordFloor[1].floor;
 
-      var map;
 
 			if(eGuide == false){
 			 	var initZoom = 14;
@@ -118,6 +119,7 @@ var showFloor = objektCoordFloor[1].floor;
 							}
 						]
         });
+	
 
 			//marker and infowindow Ausstellungsstr.
 			var markerAusstellungsstr = {
@@ -130,7 +132,7 @@ var showFloor = objektCoordFloor[1].floor;
 				};
 
 				//marker for zoomed out
-				var marker = new google.maps.Marker({
+				marker = new google.maps.Marker({
           //position: map.getCenter(),
 					position: {lat:47.382946, lng: 8.535739},
 					icon: markerAusstellungsstr,
@@ -140,7 +142,7 @@ var showFloor = objektCoordFloor[1].floor;
 
 			//info window for zoomed out
 			var infoWindowAustellungsstr = document.getElementById('info-ausstellungsstr');
-			var infowindow = new google.maps.InfoWindow({
+			infowindow = new google.maps.InfoWindow({
           content: infoWindowAustellungsstr,
 					disableAutoPan: true
         });
@@ -163,7 +165,7 @@ var showFloor = objektCoordFloor[1].floor;
 				};
 
 				//marker for zoomed out
-				var markerToni = new google.maps.Marker({
+				markerToni = new google.maps.Marker({
           //position: map.getCenter(),
 					position: {lat:47.390221, lng: 8.511489},
 					icon: markerToniShape,
@@ -173,7 +175,7 @@ var showFloor = objektCoordFloor[1].floor;
 
 			//info window for zoomed out
 			var infoWindowToniContent = document.getElementById('info-toni');
-			var infowindowToni = new google.maps.InfoWindow({
+			infowindowToni = new google.maps.InfoWindow({
           content: infoWindowToniContent,
 					disableAutoPan: true
         });
@@ -181,6 +183,34 @@ var showFloor = objektCoordFloor[1].floor;
 
 marker.setVisible(false);
 markerToni.setVisible(false);
+
+//find out if person is in bounds: constants here are the bounds.
+  realisticBoundsAusstellungsstr = new google.maps.LatLngBounds(
+      new google.maps.LatLng(47.381198, 8.534804),
+      new google.maps.LatLng(47.384409, 8.538431)
+  );
+
+  realisticBoundsToni = new google.maps.LatLngBounds(
+      new google.maps.LatLng(47.389183, 8.510298),
+      new google.maps.LatLng(47.391986, 8.514051)
+  );
+
+  realisticBoundsTest = new google.maps.LatLngBounds(
+      new google.maps.LatLng(47.366133, 8.519503),
+      new google.maps.LatLng(47.366888, 8.520409)
+  );
+
+	var mapCenter = map.getCenter();
+google.maps.event.addListener(map, 'center_changed', function() {
+	mapCenter = map.getCenter();
+			if(realisticBoundsAusstellungsstr.contains(mapCenter) == true || realisticBoundsToni.contains(mapCenter) == true){
+      	$('#floor-control').show();
+			}else{
+      	$('#floor-control').hide();
+			}
+
+});
+
 
 			//open info windows on zoom out
     var zoom = map.getZoom();
@@ -195,8 +225,10 @@ markerToni.setVisible(false);
 			infowindow.open(map, marker);
 			infowindowToni.open(map, markerToni);
 			$('#floor-control').hide();
-			marker.setVisible(true);
-			markerToni.setVisible(true);
+			if($('body').hasClass('wp-admin') == true){}else{
+				marker.setVisible(true);
+				markerToni.setVisible(true);
+			}
 		}
 google.maps.event.addListener(map, 'zoom_changed', function() {
     var zoom = map.getZoom();
@@ -204,17 +236,26 @@ google.maps.event.addListener(map, 'zoom_changed', function() {
     if(zoom > 17){
       infowindow.close(map, marker);
       infowindow.close(map, markerToni);
-      $('#floor-control').show();
+			if(realisticBoundsAusstellungsstr.contains(mapCenter) == true || realisticBoundsToni.contains(mapCenter) == true){
+      	$('#floor-control').show();
+			}
       marker.setVisible(false);
       markerToni.setVisible(false);
     }else{
-      infowindow.open(map, marker);
-      infowindowToni.open(map, markerToni);
       $('#floor-control').hide();
-      marker.setVisible(true);
-      markerToni.setVisible(true);
+			if($('body').hasClass('wp-admin') == true){}else{
+      	infowindow.open(map, marker);
+      	infowindowToni.open(map, markerToni);
+				marker.setVisible(true);
+				markerToni.setVisible(true);
+			}
     }
 
+});
+
+google.maps.event.addListenerOnce(map, 'idle', function() {
+	//a dumb way to test if map is ready that works in another function.
+	$('body').trigger('click');
 });
 
 //show/hide floors and make a variable that holds new coordinates and floor for admin map
@@ -283,10 +324,6 @@ google.maps.event.addListener(objektMarker, 'dragend', function (event) {
 var floorControl = document.getElementById('floor-control');
 google.maps.event.addDomListener(floorControl, 'click', function(e) {
 		showFloor = $(e.target).attr('class');
-		/*$('.floor-button').removeClass('active');
-		$(e.target).parent().addClass('active');
-	  $('.floorplan').hide();
-		$('.'+showFloor).show();*/
 		//show/hide marker
 		if(showFloor == objektCoordFloor[1].floor){
 					objektMarker.setVisible(true)
@@ -301,31 +338,30 @@ google.maps.event.addDomListener(floorControl, 'click', function(e) {
 }
 
 /*geolocation*/
+//are you on the outdoor themenweg?
+var outDoorTour = false;
+function isOutDoorTour(){
+	if($('body').hasClass('term-915') || $('.themenweg').length > 0){
+		outDoorTour = true;
+	}else{
+		outDoorTour = false;
+	}
+	return outDoorTour;
+}
+outDoorTour = isOutDoorTour();
+console.log("outdoor"+outDoorTour);
+
 	//geolocate info window
 	 infoWindow = new google.maps.InfoWindow;
 	 userMarker = null;
 	 accuracyCircle = null;
 
-  realisticBoundsAusstellungsstr = new google.maps.LatLngBounds(
-      new google.maps.LatLng(47.381198, 8.534804),
-      new google.maps.LatLng(47.384409, 8.538431)
-  );
-
-  realisticBoundsToni = new google.maps.LatLngBounds(
-      new google.maps.LatLng(47.389183, 8.510298),
-      new google.maps.LatLng(47.391986, 8.514051)
-  );
-
-  realisticBoundsTest = new google.maps.LatLngBounds(
-      new google.maps.LatLng(47.366133, 8.519503),
-      new google.maps.LatLng(47.366888, 8.520409)
-  );
-
 	// Try HTML5 geolocation.
 	$('#locator-tool').click(function(){
 		$(this).addClass('locating-blink');
 	if (navigator.geolocation) {
-		navigator.geolocation.getCurrentPosition(function(position) {
+		//navigator.geolocation.getCurrentPosition(function(position) {
+		navigator.geolocation.watchPosition(function(position) {
 			var pos = {
 				lat: position.coords.latitude,
 				lng: position.coords.longitude
@@ -350,14 +386,12 @@ google.maps.event.addDomListener(floorControl, 'click', function(e) {
 			console.log(realisticBoundsAusstellungsstr.contains(pos));
 			console.log(realisticBoundsToni.contains(pos));
 			console.log(realisticBoundsTest.contains(pos));
-			if(realisticBoundsAusstellungsstr.contains(pos) == false && realisticBoundsToni.contains(pos) == false && realisticBoundsTest.contains(pos) == false){
+			if(realisticBoundsAusstellungsstr.contains(pos) == false && realisticBoundsToni.contains(pos) == false && realisticBoundsTest.contains(pos) == false && outDoorTour == false ){
 				infoWindow.setPosition(objektPosition);
 				infoWindow.setContent('You are too far from the object');
 				map.setCenter(objektPosition);
 				infoWindow.open(map);
-			}else{
-
-			if (userMarker && userMarker.setPosition) {
+			}else{ if (userMarker && userMarker.setPosition) {
 	        userMarker.setPosition(pos);
 					accuracyCircle.setRadius(position.coords.accuracy);
 					accuracyCircle.setCenter(pos);
