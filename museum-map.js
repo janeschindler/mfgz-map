@@ -203,7 +203,7 @@ markerToni.setVisible(false);
 	var mapCenter = map.getCenter();
 google.maps.event.addListener(map, 'center_changed', function() {
 	mapCenter = map.getCenter();
-			if(realisticBoundsAusstellungsstr.contains(mapCenter) == true || realisticBoundsToni.contains(mapCenter) == true){
+			if( (realisticBoundsAusstellungsstr.contains(mapCenter) == true && map.getZoom() > 17) || (realisticBoundsToni.contains(mapCenter) == true && map.getZoom() > 17) ){
       	$('#floor-control').show();
 			}else{
       	$('#floor-control').hide();
@@ -341,7 +341,7 @@ google.maps.event.addDomListener(floorControl, 'click', function(e) {
 //are you on the outdoor themenweg?
 var outDoorTour = false;
 function isOutDoorTour(){
-	if($('body').hasClass('term-915') || $('.themenweg').length > 0){
+	if($('body').hasClass('term-themenweg-mfgz-landesmuseum') || $('body').hasClass('term-themenweg-landesmuseum-mfgz') || $('.themenweg').length > 0){
 		outDoorTour = true;
 	}else{
 		outDoorTour = false;
@@ -349,7 +349,6 @@ function isOutDoorTour(){
 	return outDoorTour;
 }
 outDoorTour = isOutDoorTour();
-console.log("outdoor"+outDoorTour);
 
 	//geolocate info window
 	 infoWindow = new google.maps.InfoWindow;
@@ -376,11 +375,11 @@ console.log("outdoor"+outDoorTour);
 
 			var geolocateObjektShape = {
 					path: 'M-3,0a3,3 0 1,0 6,0a3,3 0 1,0 -6,0',
-					fillColor: 'rgb(0,0,0)',
+					fillColor: 'rgb(255,255,255)',
 					fillOpacity: 1,
-					scale: 1,
+					scale: 2.5,
 					strokeColor: 'rgb(0,0,0)',
-					strokeWeight: 14
+					strokeWeight: 3
 				};
 
 			console.log(realisticBoundsAusstellungsstr.contains(pos));
