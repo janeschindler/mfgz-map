@@ -44,6 +44,11 @@
 	top:42px;
 }
 }
+.gm-bundled-control img{
+	width:13px !important;
+	height:13px !important;
+	padding-top:11px !important;
+}
 @media(orientation:portrait),(max-width:800px){
 	/*.single-objekt .objekt-location-container{
 		top:auto;
@@ -184,6 +189,7 @@
 .gmnoprint button + div{
   width:100% !important;
   left:0px !important;
+	margin:0 !important;
 }
 .gm-bundled-control-on-bottom{
   right:36px !important;
@@ -194,7 +200,7 @@
   height:72px !important;
 }
 .gm-bundled-control-on-bottom button{
-  margin-left:4px !important;
+  margin-left:-2px !important;
   height:36px !important;
 }
 .gm-bundled-control-on-bottom button div{
