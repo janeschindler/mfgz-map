@@ -20,12 +20,15 @@ function location_field() {
 add_action('admin_enqueue_scripts', 'location_field');
 
 function location_field_frontend() {
+		wp_register_script('google-maps', 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBjH_xjqK203t5C_MkDxQRgYkoSKXfFakk', array(), time());
+    wp_register_script('museum-indoor-map', plugins_url('museum-map.js', __FILE__), array('jquery','google-maps'), time());
+		wp_register_style('map-styles', plugins_url('map-styles.css', __FILE__), array(), time());
   global $post_type;
   global $post;
 	if(!empty($post) && $post->ID == 1316 || !empty($post) && $post->post_type == 'ausstellungstexte' || (get_bloginfo() == "Museum für Gestaltung Zürich" && ( isset($post) && $post->ID == 5323 ) OR $post_type == 'standort'  ) || (get_bloginfo() == "Museum für Gestaltung eGuide" && get_queried_object()->slug == "themenweg-landesmuseum-mfgz") || (get_bloginfo() == "Museum für Gestaltung eGuide" && get_queried_object()->slug == "themenweg-mfgz-landesmuseum") ){
-		wp_enqueue_script('google-maps', 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBjH_xjqK203t5C_MkDxQRgYkoSKXfFakk', array(), time());
-    wp_enqueue_script('museum-indoor-map', plugins_url('museum-map.js', __FILE__), array('jquery','google-maps'), time());
-		wp_enqueue_style('map-styles', plugins_url('map-styles.css', __FILE__), array(), time());
+		wp_enqueue_script('google-maps');
+    wp_enqueue_script('museum-indoor-map');
+		wp_enqueue_style('map-styles');
 	}
 }
 
