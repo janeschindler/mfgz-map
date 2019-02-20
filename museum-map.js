@@ -1,18 +1,18 @@
 var map;
 jQuery(document).ready(function($) {
 
-var eGuide;
-if(window.location.href.indexOf("eguide") != -1){
-	eGuide = true;
-}else{
-	eGuide = false;
-}
-var plc;
-if(window.location.href.indexOf("pavillon-le-corbusier") != -1){
-		plc = true;
-}else{
-		plc = false;
-}
+	var eGuide;
+	if(window.location.href.indexOf("eguide") != -1){
+		eGuide = true;
+	}else{
+		eGuide = false;
+	}
+	var plc;
+	if(window.location.href.indexOf("pavillon-le-corbusier") != -1){
+			plc = true;
+	}else{
+			plc = false;
+	}
 
 
 
@@ -87,28 +87,29 @@ var	objektPosition = objektCoordFloor[0];
 var showFloor = objektCoordFloor[1].floor;
 var initZoom;
 
-			// case just plc zoom in over plc location
-			if(plc == true && eGuide == false){
-				initZoom = 15;
-				if($(window).width() < 800){
-        	initZoom = 13;
-      	}
-				objektPosition = {lat:47.356249, lng: 8.550879};
-			} // case plc and eguide -> zoom in close over plc location to see floor plan
-			else if(plc == true && eGuide == true){
-			 	initZoom = 20;
-				objektPosition = {lat:47.356249, lng: 8.550879};
-			} // case not plc and not eguide -> zoom in over musuem location
-			else if(eGuide == false){
-			 	initZoom = 14;
-	      	if($(window).width() < 800){
-	        	initZoom = 13;
-	      	}
-				objektPosition = {lat:47.386806, lng:8.523518};
-			} // case eguide only -> zoom in close to museum to see floor plan
-			else {
-				initZoom = 20;
-			}
+// case just plc zoom in over plc location
+if(plc == true && eGuide == false){
+	initZoom = 15;
+	if($(window).width() < 800){
+		initZoom = 13;
+	}
+	objektPosition = {lat:47.356249, lng: 8.550879};
+} // case plc and eguide -> zoom in close over plc location to see floor plan
+else if(plc == true && eGuide == true){
+	initZoom = 20;
+	objektPosition = {lat:47.356249, lng: 8.550879};
+} // case not plc and not eguide -> zoom in over musuem location
+else if(eGuide == false){
+	initZoom = 14;
+		if($(window).width() < 800){
+			initZoom = 13;
+		}
+	objektPosition = {lat:47.386806, lng:8.523518};
+} // case eguide only -> zoom in close to museum to see floor plan
+else {
+	initZoom = 20;
+}
+
 
       function initMap() {
         map = new google.maps.Map(document.getElementById('map'), {
