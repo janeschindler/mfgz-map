@@ -1,12 +1,20 @@
 var map;
-jQuery(document).ready(function($) {	
+jQuery(document).ready(function($) {
 
 var eGuide;
-if(document.domain.indexOf('eguide') >= 0){
+if(window.location.href.indexOf("eguide") != -1){
 	eGuide = true;
 }else{
 	eGuide = false;
 }
+var plc;
+if(window.location.href.indexOf("pavillon-le-corbusier") != -1){
+		plc = true;
+}else{
+		plc = false;
+}
+
+
 
 
 $(window).load(function(){
@@ -77,15 +85,28 @@ if($('#_objekt_location').text() == null || $('#_objekt_location').text() == "")
 }}
 var	objektPosition = objektCoordFloor[0];
 var showFloor = objektCoordFloor[1].floor;
+var initZoom;
 
-
-			if(eGuide == false){
-			 	var initZoom = 14;
-      	if($(window).width() < 800){
+			// case just plc zoom in over plc location
+			if(plc == true && eGuide == false){
+				initZoom = 15;
+				if($(window).width() < 800){
         	initZoom = 13;
       	}
+				objektPosition = {lat:47.356249, lng: 8.550879};
+			} // case plc and eguide -> zoom in close over plc location to see floor plan
+			else if(plc == true && eGuide == true){
+			 	initZoom = 20;
+				objektPosition = {lat:47.356249, lng: 8.550879};
+			} // case not plc and not eguide -> zoom in over musuem location
+			else if(eGuide == false){
+			 	initZoom = 14;
+	      	if($(window).width() < 800){
+	        	initZoom = 13;
+	      	}
 				objektPosition = {lat:47.386806, lng:8.523518};
-			}else{
+			} // case eguide only -> zoom in close to museum to see floor plan
+			else {
 				initZoom = 20;
 			}
 
@@ -119,7 +140,7 @@ var showFloor = objektCoordFloor[1].floor;
 							}
 						]
         });
-	
+
 
 			//marker and infowindow Ausstellungsstr.
 			var markerAusstellungsstr = {
@@ -181,6 +202,32 @@ var showFloor = objektCoordFloor[1].floor;
         });
 			//infowindow.open(map, markerToni);
 
+			//marker plc
+				var markerPLCShape = {
+						path: 'M-3,0a3,3 0 1,0 6,0a3,3 0 1,0 -6,0',
+						fillColor: 'rgb(50,50,180)',
+						fillOpacity: 1,
+						scale: 1,
+						strokeColor: 'rgb(50,110,180)',
+						strokeWeight: 14
+					};
+
+					//marker for zoomed out
+					markerPLC = new google.maps.Marker({
+	          //position: map.getCenter(),
+						position: {lat:47.356249, lng: 8.550879},
+						icon: markerPLCShape,
+	          draggable: false,
+	          map: map
+	        });
+
+				//info window for zoomed out
+				var infoWindowPLCContent = document.getElementById('info-plc');
+				infowindowPLC = new google.maps.InfoWindow({
+	          content: infoWindowPLCContent,
+						disableAutoPan: true
+	        });
+
 marker.setVisible(false);
 markerToni.setVisible(false);
 
@@ -217,17 +264,21 @@ google.maps.event.addListener(map, 'center_changed', function() {
     $('#map').addClass('zoom-'+zoom);
 		if(zoom > 17){
 			infowindow.close(map, marker);
-			infowindow.close(map, markerToni);
+			infowindowToni.close(map, markerToni);
+			infowindowPLC.close(map, markerPLC);
 			$('#floor-control').show();
 			marker.setVisible(false);
 			markerToni.setVisible(false);
+			markerPLC.setVisible(false);
 		}else{
 			infowindow.open(map, marker);
 			infowindowToni.open(map, markerToni);
+			infowindowPLC.open(map, markerPLC);
 			$('#floor-control').hide();
 			if($('body').hasClass('wp-admin') == true){}else{
 				marker.setVisible(true);
 				markerToni.setVisible(true);
+				markerPLC.setVisible(true);
 			}
 		}
 google.maps.event.addListener(map, 'zoom_changed', function() {
@@ -236,18 +287,22 @@ google.maps.event.addListener(map, 'zoom_changed', function() {
     if(zoom > 17){
       infowindow.close(map, marker);
       infowindow.close(map, markerToni);
+			infowindowPLC.close(map, markerPLC);
 			if(realisticBoundsAusstellungsstr.contains(mapCenter) == true || realisticBoundsToni.contains(mapCenter) == true){
       	$('#floor-control').show();
 			}
       marker.setVisible(false);
       markerToni.setVisible(false);
+			markerPLC.setVisible(false);
     }else{
       $('#floor-control').hide();
 			if($('body').hasClass('wp-admin') == true){}else{
       	infowindow.open(map, marker);
       	infowindowToni.open(map, markerToni);
+				infowindowPLC.open(map, markerPLC);
 				marker.setVisible(true);
 				markerToni.setVisible(true);
+				markerPLC.setVisible(true);
 			}
     }
 
@@ -522,7 +577,7 @@ SvgOverlay.prototype.onAdd = function() {
 
   var panes = this.getPanes();
   panes.overlayLayer.appendChild(divFloorPlan);
-	
+
 	var that = this;
 	google.maps.event.addDomListener( divFloorPlan, "click", function(){
 		google.maps.event.trigger( that, "click" );
@@ -587,7 +642,7 @@ SvgOverlay.prototype.onRemove = function() {
 
 google.maps.event.addDomListener(window, 'load', initMap);
 
-				
+
 /*object location*/
 $('.locate-button, .location-name').click(function(e){
 	e.stopPropagation();
