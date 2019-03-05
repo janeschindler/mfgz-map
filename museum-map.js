@@ -81,6 +81,9 @@ SvgOverlay.prototype = new google.maps.OverlayView();
 PLCSvgOverlay.prototype = new google.maps.OverlayView();
 
 var objektCoordFloor = [{lat:47.382946, lng: 8.535739},{floor:'floorplan-eg'}];
+if(plc == true){
+	var objektCoordFloor = [{lat:47.356093, lng: 8.550949},{floor:'floorplan-eg'}];
+}
 if($('#_objekt_location').val() == null || $('#_objekt_location').val() == ""){}else{
 	objektCoordFloor = JSON.parse($('#_objekt_location').val());
 }
@@ -101,7 +104,6 @@ if(plc == true && eGuide == false){
 } // case plc and eguide -> zoom in close over plc location to see floor plan
 else if(plc == true && eGuide == true){
 	initZoom = 20;
-	objektPosition = {lat:47.356093, lng: 8.550949};
 } // case not plc and not eguide -> zoom in over musuem location
 else if(eGuide == false){
 	initZoom = 14;
@@ -343,7 +345,6 @@ google.maps.event.addListenerOnce(map, 'idle', function(){
 		$('.floorplan').hide();
 		$('.'+showFloor).show();
 		$('.'+showFloor).parent().addClass('active');
-		console.log(showFloor);
 });
 google.maps.event.addDomListener(floorControl, 'click', function(e) {
 		showFloor = $(e.target).attr('class');
@@ -550,7 +551,6 @@ function SvgOverlay( bounds, map ) {
   this.map_ = map;
   this.div_ = null;
   this.setMap( map );
-  console.log(this);
 }
 
 SvgOverlay.prototype.onAdd = function() {
@@ -692,7 +692,6 @@ KARTE PLC KARTE PLC KARTE PLC KARTE PLC KARTE PLC KARTE PLC KARTE PLC KARTE PLC 
 //sw, ne
 
 function PLCSvgOverlay( bounds, map ) {
-	console.log(map);
   this.bounds_ = bounds;
   this.map_ = map;
   this.div_ = null;
