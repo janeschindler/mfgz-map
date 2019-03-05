@@ -100,9 +100,7 @@ function text_with_map( $field_args, $field ) {
 
 </div>
 
-	<?php } ?>
-
-<?php
+<?php } 
 	function map_with_controls(){
 ?>
   <div class="map-container <?php if(is_admin() == true){ print "de"; } ?>">
@@ -146,6 +144,18 @@ function text_with_map( $field_args, $field ) {
   <div class="info-window info-toni" id="info-toni">
     <div class="info-window-title">Toni-Areal</div>
     <div class="map-address">Pfingstweidstrasse 94<br>8005 Zürich</div>
+  </div>
+  <div class="info-window info-plc" id="info-plc">
+    <div class="info-window-title">Pavillon Le Corbusier</div>
+    <div class="map-address">Höschgasse 8<br>8008 Zürich</div>
+    <div class="see-floorplan"><?php 
+				if(is_admin() == true){
+					print qtranxf_use('de', '[:de]Museumsplan[:en]Museum map[:fr]Carte du musée[:]');
+				}else{
+					print __('[:de]Museumsplan[:en]Museum map[:fr]Carte du musée[:]'); 
+				}
+			?>
+		</div>
   </div>
   </div>
 
