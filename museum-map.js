@@ -96,9 +96,9 @@ var initZoom;
 
 // case just plc zoom in over plc location
 if(plc == true && eGuide == false){
-	initZoom = 20;
+	initZoom = 14;
 	if($(window).width() < 800){
-		initZoom = 20;
+		initZoom = 13;
 	}
 	objektPosition = {lat:47.356093, lng: 8.550949};
 } // case plc and eguide -> zoom in close over plc location to see floor plan
