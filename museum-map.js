@@ -223,10 +223,10 @@ function initMap() {
 		//marker plc
 			var markerPLCShape = {
 					path: 'M-3,0a3,3 0 1,0 6,0a3,3 0 1,0 -6,0',
-					fillColor: 'rgb(50,50,180)',
+					fillColor: 'rgb(0,165,80)',
 					fillOpacity: 1,
 					scale: 1,
-					strokeColor: 'rgb(50,110,180)',
+					strokeColor: 'rgb(0,165,80)',
 					strokeWeight: 14
 				};
 
