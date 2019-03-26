@@ -344,26 +344,32 @@
 
 /*plc*/
 .floorplan-container-PLC .wc-1{
-  left: 42%;
-   top: 133%;
+    left: 68.1%;
+    top: 51.8%;
 }
 .floorplan-container-PLC .shop{
-    left: 57%;
-    top: 183%;
-    margin-left:-80px;
+    left: 70.8%;
+    top: 53.8%;
+    margin-left:-39px;
 }
-.floorplan-container-PLC .vermittlung{
-    left: 29%;
-    top: 121%;
-    margin-left:-35px;
+.floorplan-container-PLC .entrance{
+    left: 75%;
+    top: 53%;
+    margin-left:-29px;
 }
 .floorplan-container-PLC .library{
-    left: 29%;
-    top: 121%;
+    left: 65.5%;
+    top: 51.4%;
+    margin-left:-35px;
+}
+.floorplan-container-PLC .dachterrasse{
+    left: 65.5%;
+    top: 53%;
     margin-left:-35px;
 }
 #map .floorplan-container-PLC polyline, #map .floorplan-container-PLC line, #map .floorplan-container-PLC polygon, #map .floorplan-container-PLC rect, #map .floorplan-container-PLC path{
-  stroke:#aaa;
+  //stroke:#aaa;
+  stroke:#828282;
   stroke-width:2px;
 }
 #map.zoom-21 .floorplan-container-PLC polyline, #map.zoom-21 .floorplan-container-PLC line, #map.zoom-21 .floorplan-container-PLC polygon, #map.zoom-21 .floorplan-container-PLC rect{
