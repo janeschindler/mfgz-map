@@ -103,7 +103,10 @@ if(plc == true && eGuide == false){
 	objektPosition = {lat:47.356093, lng: 8.550949};
 } // case plc and eguide -> zoom in close over plc location to see floor plan
 else if(plc == true && eGuide == true){
-	initZoom = 20;
+	initZoom = 21;
+	if($(window).width() < 768){
+		initZoom = 20;
+	}
 } // case not plc and not eguide -> zoom in over musuem location
 else if(eGuide == false){
 	initZoom = 14;
@@ -840,7 +843,6 @@ $('.locate-button, .location-name').click(function(e){
 });
 
 $('body').on('click', function(e){
-	console.log(e.target);
 	if($(e.target).hasClass('location-name')){
 	}else if($(e.target).parents('.title-area').length){
 		if($('#_objekt_location').text().length){
