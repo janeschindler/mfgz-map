@@ -367,6 +367,11 @@
     top: 53%;
     margin-left:-35px;
 }
+.floorplan-container-PLC .haller{
+    left: 81.5%;
+    top: 38%;
+    margin-left:-44px;
+}
 #map .floorplan-container-PLC polyline, #map .floorplan-container-PLC line, #map .floorplan-container-PLC polygon, #map .floorplan-container-PLC rect, #map .floorplan-container-PLC path{
   //stroke:#aaa;
   stroke:#828282;
