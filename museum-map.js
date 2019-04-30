@@ -367,15 +367,21 @@ google.maps.event.addDomListener(floorControl, 'click', function(e) {
 
 //admin stuff
 if($('body').hasClass('wp-admin') || $('body').hasClass('single-objekt') || $('body').hasClass('single-ausstellungstexte')){
+
+var color = 'rgb(225,0,45)';
+if(plc == true){
+	color = 'rgb(0,165,80)';
+}
+
 //draggable placement marker
 var markerObjektShape = {
 		path: 'M-3,0a3,3 0 1,0 6,0a3,3 0 1,0 -6,0',
 		//fillColor: 'rgb(0,0,0)',
-		fillColor: 'rgb(225,0,45)',
+		fillColor: color,
 		fillOpacity: 1,
 		scale: 1,
 		//strokeColor: 'rgb(0,0,0)',
-		strokeColor: 'rgb(225,0,45)',
+		strokeColor: color,
 		strokeWeight: 14
 	};
 
