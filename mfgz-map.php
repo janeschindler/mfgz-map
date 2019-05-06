@@ -79,7 +79,7 @@ function _location_field_metabox()  {
 
 }
 
-if(get_bloginfo() == "Museum für Gestaltung eGuide"){
+if((get_bloginfo() == "Museum für Gestaltung eGuide")||(get_bloginfo() == "Pavillon le Corbusier eGuide")){
 	add_action( 'cmb2_admin_init', '_location_field_metabox' );
 }
 
