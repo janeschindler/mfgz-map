@@ -749,7 +749,7 @@ PLCSvgOverlay.prototype.onAdd = function() {
 	divFloorPlan2.innerHTML = floor2;
 	divFloorPlan2.className = 'floorplan floorplan-2';
 	$(divFloorPlan).append(divFloorPlan2);
-	$(divFloorPlan2).append('<div class="label dachterrasse"><span class="text en">Roof terrace</span><span class="text de">Dachterasse</span><span class="text fr">Toit-terrasse</span></div>');
+	$(divFloorPlan2).append('<div class="label dachterrasse"><span class="text en">Roof terrace</span><span class="text de">Dachterrasse</span><span class="text fr">Toit-terrasse</span></div>');
 	$(divFloorPlan2).append('<div class="label haller"><span class="text en">Atelier Haller</span><span class="text de">Atelier Haller</span><span class="text fr">Atelier Haller</span></div>');
 		
   this.div_ = divFloorPlan;
