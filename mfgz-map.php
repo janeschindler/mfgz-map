@@ -143,7 +143,7 @@ function text_with_map( $field_args, $field ) {
   </div>
   <div class="info-window info-toni" id="info-toni">
     <div class="info-window-title">Toni-Areal</div>
-    <div class="map-address">Pfingstweidstrasse 94<br>8005 Zürich</div>
+    <div class="map-address">Pfingstweidstrasse 96<br>8005 Zürich</div>
   </div>
   <div class="info-window info-plc" id="info-plc">
     <div class="info-window-title">Pavillon Le Corbusier</div>
